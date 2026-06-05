@@ -1,0 +1,64 @@
+body{
+  padding: 25px;
+}
+
+.title{
+  text-align: center;
+}
+.card{
+  padding: 1em;
+}
+
+.players{
+  display: flex;
+  justify-content: space-between;
+}
+
+.player.quiz{
+  text-shadow: 0 0 5px rgb(255, 255, 255);
+}
+
+.responces{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.option{
+  min-width: 48%;
+  min-height: 4em;
+  margin: 0.3em;
+}
+
+.option-box{
+  height: 3.6em;
+}
+
+.alert{
+  transition: 0.2s ease-in-out;
+}
+
+.alert-dark:hover{
+ box-shadow: 0 0 15px rgb(0, 0, 0);
+ scale: 110%;
+}
+.alert-light:hover{
+ box-shadow: 0 0 15px rgb(218, 218, 218);
+ scale: 110%;
+}
+.alert-success:hover{
+ box-shadow: 0 0 15px rgb(0, 179, 80);
+ scale: 110%;
+}
+.alert-danger:hover{
+ box-shadow: 0 0 15px rgb(236, 30, 30);
+ scale: 110%;
+}
+
+button{
+  background: none;
+  border: none;
+}
+
+
+
