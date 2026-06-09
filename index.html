@@ -14,24 +14,27 @@
       <div class="card">
         <div class="card-body">
           <div class="players mb-3">
+            <div id="player-indicator" aria-hidden="true"></div>
             <h4 class="Player1 player quiz">Player 1</h4>
             <h4 class="Player2 player">Player 2</h4>
           </div>
+          <div class="progress mb-3" role="progressbar" aria-label="Progresso do quiz" aria-valuemin="0" aria-valuemax="100">
+            <div id="progress-bar" class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="0"></div>
+          </div>
           <div class="card mb-4">
-            <span>Como é chamado cachorro em espanho?</span>
+            <span id="question-text">Carregando pergunta...</span>
           </div>
-          <div class="responces">
-            <button type="a" class="option"><div class="alert alert-success option-box" role="alert">A: Perro</div></button>
-            <button type="b" class="option"><div class="alert alert-danger option-box" role="alert">B: Cacholo</div></button>
-            <button type="c" class="option"><div class="alert alert-dark option-box" role="alert">C: Dog</div></button>
-            <button type="d" class="option"><div class="alert alert-light option-box" role="alert">D: Nenhuma opção</div></button>
-            
+          <div id="answers-container" class="responces"></div>
+          <div id="answer-input-wrapper" class="mb-3 d-none">
+            <input id="answer-input" type="text" class="form-control" placeholder="Digite sua resposta aqui" autocomplete="off">
+            <button id="answer-submit" class="btn btn-primary mt-3">Enviar resposta</button>
           </div>
-          <div class="d-flex justify-content-end mb-3">
-            <button class="dicas-b"><span class="material-symbols-outlined">lightbulb</span></button>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <button class="dicas-b me-3"><span class="material-symbols-outlined">lightbulb</span></button>
+            <button id="next-button" class="btn btn-success d-none">Próxima pergunta</button>
           </div>
           <div class="card">
-            <span>O correto é perro... seu burro</span>
+            <span id="feedback-text">Suas respostas aparecerão aqui.</span>
           </div>
         </div>
         

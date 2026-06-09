@@ -1,0 +1,22 @@
+{
+  "1": {
+    "texto": false,
+    "respostas": 4,
+    "pergunta": "Como é chamado cachorro em espanhol?",
+    "1": "Perro",
+    "2": "Cacholo",
+    "3": "Dog",
+    "4": "Nenhuma opção",
+    "respostaCorreta": "1",
+    "erro": "é perro... seu burro",
+    "acerto": "parabéns"
+  },
+  "2": {
+    "texto": true,
+    "respostas": 0,
+    "pergunta": "Como se escreve 'gato' em espanhol?",
+    "respostaCorreta": "gato",
+    "erro": "Errado, tente 'gato'.",
+    "acerto": "Correto! Gato em espanhol é gato."
+  }
+}

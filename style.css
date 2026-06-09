@@ -13,6 +13,35 @@
   justify-content: space-between;
 }
 
+.players{
+  position: relative;
+  gap: 0.5rem;
+}
+
+#player-indicator{
+  position: absolute;
+  left: 0;
+  top: 0.1rem;
+  bottom: 0.1rem;
+  width: 48%;
+  background: rgb(14, 82, 155);
+  border-radius: 0.4rem;
+  z-index: 0;
+  transition: transform 300ms ease, background-color 300ms ease;
+  transform: translateX(0%);
+}
+
+.player{
+  position: relative;
+  z-index: 1;
+  transition: filter 220ms ease, opacity 220ms ease, color 220ms ease;
+}
+
+.player.inactive{
+  filter: grayscale(80%);
+  opacity: 0.6;
+}
+
 .player.quiz{
   text-shadow: 0 0 5px rgb(255, 255, 255);
 }
@@ -62,8 +91,6 @@ button{
 }
 
 @media (max-width: 768px) {
-
-  body{zoom: 150%;}
 
   .responces{
     flex-wrap: nowrap;
