@@ -1,6 +1,4 @@
-body{
-  padding: 25px;
-}
+
 
 .title{
   text-align: center;
@@ -60,5 +58,16 @@ button{
   border: none;
 }
 
+.dicas-b{
+  background-color: black;
+  height: 3em;
+  width: 3em;
+  border-radius: 15px;
+}
 
-
+@media (max-width: 768px) {
+  .responces{
+    flex-wrap: nowrap;
+    flex-direction: column;
+  }
+}
