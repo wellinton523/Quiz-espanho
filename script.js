@@ -280,11 +280,11 @@ function handleAnswer(answerValue) {
   }
 
   if (isCorrect) {
-    feedbackText.textContent = `[${playerNames[currentPlayer]}] ` + (question.acerto || 'Acertou!');
+    feedbackText.textContent = `${playerNames[currentPlayer]} ` + (question.acerto || 'Acertou!');
     feedbackText.className = 'alert alert-success';
     playerScores[currentPlayer]++;
   } else {
-    feedbackText.textContent = `[${playerNames[currentPlayer]}] ` + (question.erro || 'Resposta incorreta.');
+    feedbackText.textContent = `${playerNames[currentPlayer]} ` + (question.erro || 'Resposta incorreta.');
     feedbackText.className = 'alert alert-danger';
   }
 
