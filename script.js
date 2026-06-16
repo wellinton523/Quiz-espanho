@@ -2,9 +2,25 @@ let questoes = {};
 let questionKeys = [];
 let currentQuestionIndex = 0;
 let hintUsed = false;
-let hintsLeft = 3;
-let currentPlayer = 1; // 1 or 2
+let currentPlayer = 1; // 1 ou 2
 
+// Sistema de nomes e pontuação
+let playerNames = { 1: "Player 1", 2: "Player 2" };
+let playerScores = { 1: 0, 2: 0 };
+let playerHints = { 1: 3, 2: 3 }; // 3 dicas independentes para cada um
+
+// Elementos das Telas
+const screenSetup = document.getElementById('screen-setup');
+const screenGame = document.getElementById('screen-game');
+const screenVictory = document.getElementById('screen-victory');
+
+// Inputs de nomes e botões de tela
+const inputP1 = document.getElementById('input-p1');
+const inputP2 = document.getElementById('input-p2');
+const startGameBtn = document.getElementById('start-game-btn');
+const restartGameBtn = document.getElementById('restart-game-btn');
+
+// Elementos do Jogo
 const questionText = document.getElementById('question-text');
 const answersContainer = document.getElementById('answers-container');
 const feedbackText = document.getElementById('feedback-text');
@@ -14,10 +30,38 @@ const answerInput = document.getElementById('answer-input');
 const answerSubmit = document.getElementById('answer-submit');
 const progressBar = document.getElementById('progress-bar');
 const hintButton = document.querySelector('.dicas-b');
-if (hintButton) hintButton.addEventListener('click', useHint);
-const player1El = document.querySelector('.Player1');
-const player2El = document.querySelector('.Player2');
+
+const player1El = document.getElementById('display-p1');
+const player2El = document.getElementById('display-p2');
+const hintNameP1 = document.getElementById('hint-name-p1');
+const hintNameP2 = document.getElementById('hint-name-p2');
+const hintsCountP1 = document.getElementById('hints-count-p1');
+const hintsCountP2 = document.getElementById('hints-count-p2');
 const playerIndicator = document.getElementById('player-indicator');
+
+// Configurações Iniciais de Eventos
+if (hintButton) hintButton.addEventListener('click', useHint);
+startGameBtn.addEventListener('click', startGame);
+restartGameBtn.addEventListener('click', () => location.reload()); // Reinicia o app do zero
+
+function startGame() {
+  // Coleta os nomes digitados (usa padrão se estiver vazio)
+  playerNames[1] = inputP1.value.trim() || "Player 1";
+  playerNames[2] = inputP2.value.trim() || "Player 2";
+
+  // Atualiza os textos da interface do jogo com os nomes reais
+  player1El.textContent = playerNames[1];
+  player2El.textContent = playerNames[2];
+  hintNameP1.textContent = playerNames[1];
+  hintNameP2.textContent = playerNames[2];
+
+  // Alterna as telas
+  screenSetup.classList.add('d-none');
+  screenGame.classList.remove('d-none');
+
+  // Começa o Quiz carregando os dados externos
+  loadQuestoes();
+}
 
 function updatePlayerUI() {
   if (player1El) {
@@ -29,17 +73,18 @@ function updatePlayerUI() {
     player2El.classList.toggle('inactive', currentPlayer !== 2);
   }
   if (playerIndicator) {
-    // move indicator under player 1 (0%) or player 2 (100%)
     playerIndicator.style.transform = currentPlayer === 1 ? 'translateX(0%)' : 'translateX(110%)';
   }
+
+  // Atualiza exibição visual das dicas numéricas
+  hintsCountP1.textContent = playerHints[1];
+  hintsCountP2.textContent = playerHints[2];
 }
 
 function loadQuestoes() {
   fetch('questoes.json')
     .then((response) => {
-      if (!response.ok) {
-        throw new Error('Não foi possível carregar questoes.json');
-      }
+      if (!response.ok) throw new Error('Não foi possível carregar questoes.json');
       return response.json();
     })
     .then((data) => initializeQuiz(data))
@@ -51,17 +96,17 @@ function loadQuestoes() {
 
 function initializeQuiz(data) {
   questoes = data;
-  
-  // Pega as chaves originais do JSON
   questionKeys = Object.keys(questoes);
   
-  // Algoritmo de Fisher-Yates para embaralhar as perguntas e evitar repetições
+  // Algoritmo Fisher-Yates para misturar as perguntas sem repetir
   for (let i = questionKeys.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [questionKeys[i], questionKeys[j]] = [questionKeys[j], questionKeys[i]];
   }
 
   currentQuestionIndex = 0;
+  playerScores[1] = 0;
+  playerScores[2] = 0;
 
   if (questionKeys.length === 0) {
     questionText.textContent = 'Nenhuma pergunta disponível.';
@@ -69,7 +114,6 @@ function initializeQuiz(data) {
   }
 
   renderQuestion();
-  updateProgress();
 }
 
 function renderQuestion() {
@@ -77,8 +121,8 @@ function renderQuestion() {
   const question = questoes[key];
 
   questionText.textContent = question.pergunta || 'Pergunta sem texto';
-  feedbackText.textContent = '';
-  feedbackText.className = '';
+  feedbackText.textContent = 'Sua resposta aparecerá aqui.';
+  feedbackText.className = 'card p-2 text-muted';
 
   const isTextQuestion = Boolean(question.texto);
   answerInputWrapper.classList.toggle('d-none', !isTextQuestion);
@@ -87,11 +131,10 @@ function renderQuestion() {
 
   if (isTextQuestion) {
     answerInput.value = '';
-    answerInput.setAttribute('placeholder', 'Digite sua resposta aqui');
+    answerInput.setAttribute('placeholder', `Digite aqui, ${playerNames[currentPlayer]}`);
     answerInput.disabled = false;
     if (answerSubmit) answerSubmit.disabled = false;
   } else {
-    // ensure text input is disabled for choice questions
     if (answerInput) answerInput.disabled = true;
     if (answerSubmit) answerSubmit.disabled = true;
     const totalOptions = Number(question.respostas) || 0;
@@ -99,8 +142,8 @@ function renderQuestion() {
       const optionText = question[String(i)] || '';
       const button = document.createElement('button');
       button.type = 'button';
-      button.className = 'option';
-      button.innerHTML = `<div class="alert alert-light option-box" role="alert">${String.fromCharCode(64 + i)}: ${optionText}</div>`;
+      button.className = 'option w-100 mb-2 border-0 bg-transparent';
+      button.innerHTML = `<div class="alert alert-light option-box mb-0 text-start" role="alert">${String.fromCharCode(64 + i)}: ${optionText}</div>`;
       button.dataset.answerId = String(i);
       button.addEventListener('click', () => handleAnswer(String(i)));
       answersContainer.appendChild(button);
@@ -109,30 +152,31 @@ function renderQuestion() {
 
   nextButton.classList.add('d-none');
   updateProgress();
-  // reset hint state and show hint button
+  
+  // Reseta estado da dica da rodada baseada no estoque do jogador atual
   hintUsed = false;
   if (hintButton) {
-    // enable hint only if there are hints remaining
-    hintButton.disabled = hintsLeft <= 0;
-    if (hintsLeft <= 0) hintButton.classList.add('used-hint');
+    const currentTurnHints = playerHints[currentPlayer];
+    hintButton.disabled = currentTurnHints <= 0;
+    if (currentTurnHints <= 0) hintButton.classList.add('used-hint');
     else hintButton.classList.remove('used-hint');
   }
-  // update which player is active for this question
+  
   updatePlayerUI();
 }
 
 function useHint() {
+  // Verifica se o jogador da vez tem saldo de dicas
+  if (playerHints[currentPlayer] <= 0) return;
+
   const key = questionKeys[currentQuestionIndex];
   const question = questoes[key];
   if (!question || Boolean(question.texto)) return;
 
-  const totalOptions = Number(question.respostas) || 0;
-  // collect incorrect option buttons
   const buttons = Array.from(answersContainer.querySelectorAll('button'));
   const incorrect = buttons.filter((b) => b.dataset.answerId !== String(question.respostaCorreta));
   if (incorrect.length === 0) return;
 
-  // shuffle incorrect and hide up to two
   for (let i = incorrect.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [incorrect[i], incorrect[j]] = [incorrect[j], incorrect[i]];
@@ -142,20 +186,22 @@ function useHint() {
   for (let i = 0; i < toHide; i++) {
     const btn = incorrect[i];
     if (btn) {
-      // mark visually as removed and disable the button
       const inner = btn.querySelector('.option-box') || btn.querySelector('div');
-      if (inner) inner.className = 'alert alert-dark option-box';
+      if (inner) inner.className = 'alert alert-dark option-box text-start text-decoration-line-through text-muted';
       btn.disabled = true;
     }
   }
 
-  // consume one hint for the whole quiz and disable for this question
-  hintsLeft = Math.max(0, hintsLeft - 1);
+  // Deduz 1 dica apenas do estoque do jogador atual
+  playerHints[currentPlayer] = Math.max(0, playerHints[currentPlayer] - 1);
   hintUsed = true;
+  
   if (hintButton) {
     hintButton.disabled = true;
     hintButton.classList.add('used-hint');
   }
+  
+  updatePlayerUI();
 }
 
 function updateProgress() {
@@ -181,48 +227,61 @@ function handleAnswer(answerValue) {
     ? submittedAnswer.toLowerCase() === correctAnswer.toLowerCase()
     : submittedAnswer === correctAnswer;
 
-  // If hint was used for this question and it's a choice question,
-  // give 50% chance of success when selecting a wrong remaining option.
   if (!isTextQuestion && hintUsed && !isCorrect) {
-    // Only apply if the selected button is still visible
     const btn = answersContainer.querySelector(`button[data-answer-id="${submittedAnswer}"]`);
-    const visible = Boolean(btn && !btn.disabled);
-    if (visible) {
-      if (Math.random() < 0.5) {
-        isCorrect = true;
-      }
+    if (btn && !btn.disabled) {
+      if (Math.random() < 0.5) isCorrect = true;
     }
   }
 
-  // For choice questions: color the selected option and disable all options
   if (!isTextQuestion) {
     const selectedBtn = answersContainer.querySelector(`button[data-answer-id="${submittedAnswer}"]`);
-    const allButtons = Array.from(answersContainer.querySelectorAll('button'));
-    allButtons.forEach((b) => b.disabled = true);
+    Array.from(answersContainer.querySelectorAll('button')).forEach((b) => b.disabled = true);
 
     if (selectedBtn) {
       const inner = selectedBtn.querySelector('.option-box') || selectedBtn.querySelector('div');
       if (inner) {
-        if (isCorrect) inner.className = 'alert alert-success option-box';
-        else inner.className = 'alert alert-danger option-box';
+        if (isCorrect) inner.className = 'alert alert-success option-box text-start';
+        else inner.className = 'alert alert-danger option-box text-start';
       }
     }
   } else {
-    // For text input questions, mark feedbackText already uses alert classes above
     answerInput.disabled = true;
+    if (answerSubmit) answerSubmit.disabled = true;
   }
 
   if (isCorrect) {
-    feedbackText.textContent = question.acerto || 'Acertou!';
+    feedbackText.textContent = `[${playerNames[currentPlayer]}] ` + (question.acerto || 'Acertou!');
     feedbackText.className = 'alert alert-success';
+    // Adiciona ponto para quem acertou
+    playerScores[currentPlayer]++;
   } else {
-    feedbackText.textContent = question.erro || 'Resposta incorreta.';
+    feedbackText.textContent = `[${playerNames[currentPlayer]}] ` + (question.erro || 'Resposta incorreta.');
     feedbackText.className = 'alert alert-danger';
   }
 
   nextButton.classList.remove('d-none');
-  // alternate player for next question
-  currentPlayer = 3 - currentPlayer;
+}
+
+function showVictoryScreen() {
+  screenGame.classList.add('d-none');
+  screenVictory.classList.remove('d-none');
+
+  const scoreP1El = document.getElementById('score-p1');
+  const scoreP2El = document.getElementById('score-p2');
+  const victoryTitle = document.getElementById('victory-title');
+
+  scoreP1El.textContent = `${playerNames[1]}: ${playerScores[1]} acerto(s)`;
+  scoreP2El.textContent = `${playerNames[2]}: ${playerScores[2]} acerto(s)`;
+
+  // Define o texto do vencedor
+  if (playerScores[1] > playerScores[2]) {
+    victoryTitle.innerHTML = `¡Vitória de <span class="text-success">${playerNames[1]}</span>! 🏆`;
+  } else if (playerScores[2] > playerScores[1]) {
+    victoryTitle.innerHTML = `¡Vitória de <span class="text-success">${playerNames[2]}</span>! 🏆`;
+  } else {
+    victoryTitle.textContent = "Empate Técnico! 🤝";
+  }
 }
 
 answerSubmit.addEventListener('click', () => handleAnswer());
@@ -232,12 +291,17 @@ answerInput.addEventListener('keydown', (event) => {
     handleAnswer();
   }
 });
+
 nextButton.addEventListener('click', () => {
   currentQuestionIndex += 1;
+  
+  // Se as perguntas acabarem, finaliza o jogo mostrando a tela de vitória
   if (currentQuestionIndex >= questionKeys.length) {
-    currentQuestionIndex = 0;
+    showVictoryScreen();
+    return;
   }
+  
+  // Passa o controle para o outro player apenas na troca de pergunta
+  currentPlayer = 3 - currentPlayer;
   renderQuestion();
 });
-
-document.addEventListener('DOMContentLoaded', loadQuestoes);
