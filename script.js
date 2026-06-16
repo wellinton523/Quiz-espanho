@@ -1,5 +1,3 @@
-
-
 let questoes = {};
 let questionKeys = [];
 let currentQuestionIndex = 0;
@@ -53,7 +51,16 @@ function loadQuestoes() {
 
 function initializeQuiz(data) {
   questoes = data;
-  questionKeys = Object.keys(questoes).sort((a, b) => Number(a) - Number(b));
+  
+  // Pega as chaves originais do JSON
+  questionKeys = Object.keys(questoes);
+  
+  // Algoritmo de Fisher-Yates para embaralhar as perguntas e evitar repetições
+  for (let i = questionKeys.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [questionKeys[i], questionKeys[j]] = [questionKeys[j], questionKeys[i]];
+  }
+
   currentQuestionIndex = 0;
 
   if (questionKeys.length === 0) {
