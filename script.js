@@ -2,25 +2,41 @@ let questoes = {};
 let questionKeys = [];
 let currentQuestionIndex = 0;
 let hintUsed = false;
-let currentPlayer = 1; // 1 ou 2
+let currentPlayer = 1;
 
-// Sistema de nomes e pontuação
+// Perguntas reserva prontas caso o arquivo questoes.json falhe ou não exista localmente
+const fallbackQuestoes = {
+  "1": {
+    "pergunta": "¿Cómo se dice 'Bom dia' en español?",
+    "respostas": "3",
+    "1": "Buenas noches",
+    "2": "Buenos días",
+    "3": "Buenas tardes",
+    "respostaCorreta": "2",
+    "acerto": "¡Excelente! Muy bien.",
+    "erro": "Incorreto. Lo correcto es 'Buenos días'."
+  },
+  "2": {
+    "pergunta": "Traduzca la palabra: 'Coche'",
+    "texto": true,
+    "respostaCorreta": "carro",
+    "acerto": "¡Perfecto!",
+    "erro": "Mal. 'Coche' significa carro/automóvel."
+  }
+};
+
 let playerNames = { 1: "Player 1", 2: "Player 2" };
 let playerScores = { 1: 0, 2: 0 };
-let playerHints = { 1: 3, 2: 3 }; // 3 dicas independentes para cada um
+let playerHints = { 1: 3, 2: 3 };
 
-// Elementos das Telas
+// Seleção dos elementos do DOM
 const screenSetup = document.getElementById('screen-setup');
 const screenGame = document.getElementById('screen-game');
 const screenVictory = document.getElementById('screen-victory');
-
-// Inputs de nomes e botões de tela
 const inputP1 = document.getElementById('input-p1');
 const inputP2 = document.getElementById('input-p2');
 const startGameBtn = document.getElementById('start-game-btn');
 const restartGameBtn = document.getElementById('restart-game-btn');
-
-// Elementos do Jogo
 const questionText = document.getElementById('question-text');
 const answersContainer = document.getElementById('answers-container');
 const feedbackText = document.getElementById('feedback-text');
@@ -30,7 +46,6 @@ const answerInput = document.getElementById('answer-input');
 const answerSubmit = document.getElementById('answer-submit');
 const progressBar = document.getElementById('progress-bar');
 const hintButton = document.querySelector('.dicas-b');
-
 const player1El = document.getElementById('display-p1');
 const player2El = document.getElementById('display-p2');
 const hintNameP1 = document.getElementById('hint-name-p1');
@@ -39,27 +54,47 @@ const hintsCountP1 = document.getElementById('hints-count-p1');
 const hintsCountP2 = document.getElementById('hints-count-p2');
 const playerIndicator = document.getElementById('player-indicator');
 
-// Configurações Iniciais de Eventos
-if (hintButton) hintButton.addEventListener('click', useHint);
-startGameBtn.addEventListener('click', startGame);
-restartGameBtn.addEventListener('click', () => location.reload()); // Reinicia o app do zero
+// Executa os eventos quando o script carrega completamente
+function initEvents() {
+  if (hintButton) hintButton.addEventListener('click', useHint);
+  if (startGameBtn) startGameBtn.addEventListener('click', startGame);
+  if (restartGameBtn) restartGameBtn.addEventListener('click', () => location.reload());
+  if (answerSubmit) answerSubmit.addEventListener('click', () => handleAnswer());
+  
+  if (answerInput) {
+    answerInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        handleAnswer();
+      }
+    });
+  }
+
+  if (nextButton) {
+    nextButton.addEventListener('click', () => {
+      currentQuestionIndex += 1;
+      if (currentQuestionIndex >= questionKeys.length) {
+        showVictoryScreen();
+        return;
+      }
+      currentPlayer = 3 - currentPlayer;
+      renderQuestion();
+    });
+  }
+}
 
 function startGame() {
-  // Coleta os nomes digitados (usa padrão se estiver vazio)
   playerNames[1] = inputP1.value.trim() || "Player 1";
   playerNames[2] = inputP2.value.trim() || "Player 2";
 
-  // Atualiza os textos da interface do jogo com os nomes reais
-  player1El.textContent = playerNames[1];
-  player2El.textContent = playerNames[2];
-  hintNameP1.textContent = playerNames[1];
-  hintNameP2.textContent = playerNames[2];
+  if(player1El) player1El.textContent = playerNames[1];
+  if(player2El) player2El.textContent = playerNames[2];
+  if(hintNameP1) hintNameP1.textContent = playerNames[1];
+  if(hintNameP2) hintNameP2.textContent = playerNames[2];
 
-  // Alterna as telas
   screenSetup.classList.add('d-none');
   screenGame.classList.remove('d-none');
 
-  // Começa o Quiz carregando os dados externos
   loadQuestoes();
 }
 
@@ -75,21 +110,19 @@ function updatePlayerUI() {
   if (playerIndicator) {
     playerIndicator.style.transform = currentPlayer === 1 ? 'translateX(0%)' : 'translateX(110%)';
   }
-
-  // Atualiza exibição visual das dicas numéricas
-  hintsCountP1.textContent = playerHints[1];
-  hintsCountP2.textContent = playerHints[2];
+  if(hintsCountP1) hintsCountP1.textContent = playerHints[1];
+  if(hintsCountP2) hintsCountP2.textContent = playerHints[2];
 }
 
 function loadQuestoes() {
   fetch('questoes.json')
     .then((response) => {
-      if (!response.ok) throw new Error('Não foi possível carregar questoes.json');
+      if (!response.ok) throw new Error('Não foi possível carregar o arquivo JSON.');
       return response.json();
     })
     .then((data) => initializeQuiz(data))
     .catch((error) => {
-      console.warn('Falha ao carregar questoes.json, usando dados internos:', error);
+      console.warn('Usando perguntas internas de segurança:', error.message);
       initializeQuiz(fallbackQuestoes);
     });
 }
@@ -98,7 +131,6 @@ function initializeQuiz(data) {
   questoes = data;
   questionKeys = Object.keys(questoes);
   
-  // Algoritmo Fisher-Yates para misturar as perguntas sem repetir
   for (let i = questionKeys.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [questionKeys[i], questionKeys[j]] = [questionKeys[j], questionKeys[i]];
@@ -153,7 +185,6 @@ function renderQuestion() {
   nextButton.classList.add('d-none');
   updateProgress();
   
-  // Reseta estado da dica da rodada baseada no estoque do jogador atual
   hintUsed = false;
   if (hintButton) {
     const currentTurnHints = playerHints[currentPlayer];
@@ -166,7 +197,6 @@ function renderQuestion() {
 }
 
 function useHint() {
-  // Verifica se o jogador da vez tem saldo de dicas
   if (playerHints[currentPlayer] <= 0) return;
 
   const key = questionKeys[currentQuestionIndex];
@@ -192,7 +222,6 @@ function useHint() {
     }
   }
 
-  // Deduz 1 dica apenas do estoque do jogador atual
   playerHints[currentPlayer] = Math.max(0, playerHints[currentPlayer] - 1);
   hintUsed = true;
   
@@ -253,7 +282,6 @@ function handleAnswer(answerValue) {
   if (isCorrect) {
     feedbackText.textContent = `[${playerNames[currentPlayer]}] ` + (question.acerto || 'Acertou!');
     feedbackText.className = 'alert alert-success';
-    // Adiciona ponto para quem acertou
     playerScores[currentPlayer]++;
   } else {
     feedbackText.textContent = `[${playerNames[currentPlayer]}] ` + (question.erro || 'Resposta incorreta.');
@@ -274,7 +302,6 @@ function showVictoryScreen() {
   scoreP1El.textContent = `${playerNames[1]}: ${playerScores[1]} acerto(s)`;
   scoreP2El.textContent = `${playerNames[2]}: ${playerScores[2]} acerto(s)`;
 
-  // Define o texto do vencedor
   if (playerScores[1] > playerScores[2]) {
     victoryTitle.innerHTML = `¡Vitória de <span class="text-success">${playerNames[1]}</span>! 🏆`;
   } else if (playerScores[2] > playerScores[1]) {
@@ -284,24 +311,5 @@ function showVictoryScreen() {
   }
 }
 
-answerSubmit.addEventListener('click', () => handleAnswer());
-answerInput.addEventListener('keydown', (event) => {
-  if (event.key === 'Enter') {
-    event.preventDefault();
-    handleAnswer();
-  }
-});
-
-nextButton.addEventListener('click', () => {
-  currentQuestionIndex += 1;
-  
-  // Se as perguntas acabarem, finaliza o jogo mostrando a tela de vitória
-  if (currentQuestionIndex >= questionKeys.length) {
-    showVictoryScreen();
-    return;
-  }
-  
-  // Passa o controle para o outro player apenas na troca de pergunta
-  currentPlayer = 3 - currentPlayer;
-  renderQuestion();
-});
+// Inicializa os escutadores de eventos assim que o script carregar
+initEvents();
