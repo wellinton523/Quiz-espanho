@@ -10,10 +10,15 @@
 }
 
 .aurora {
-    display: block;
-    width: 98.8vw;
-    height: 150vh;
-    opacity: 80%;
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -2;
+  opacity: 0.8;
+  pointer-events: none;
 }
 
 .card{
@@ -27,10 +32,10 @@
 }
 
 .background-night{
-  height: 150vh;
-  width: 98.8vw;
+  position: fixed;
+  inset: 0;
   background: linear-gradient(181deg, rgba(2, 0, 36, 1) 0%, rgba(13, 13, 56, 1) 0%, rgba(9, 3, 46, 1) 35%, rgba(1, 0, 82, 1) 78%, rgba(0, 2, 33, 1) 100%);
-  position: absolute;
+  z-index: -3;
 }
 
 .title{
@@ -38,7 +43,16 @@
 }
 .card{
   padding: 1em;
+  transition: transform 220ms ease, box-shadow 220ms ease;
 }
+
+.fade-in{animation: fadeIn 300ms ease both}
+.slide-up{animation: slideUp 300ms ease both}
+.pulse{animation: pulse 650ms ease both}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}
 
 .players{
   display: flex;
