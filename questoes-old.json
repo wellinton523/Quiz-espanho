@@ -1,0 +1,222 @@
+{
+  "1": {
+    "texto": false,
+    "respostas": 3,
+    "pergunta": "¿Cuál es el único mamífero conocido con cuatro dedos en las extremidades funcionalmente distintos?",
+    "1": "El hombre",
+    "2": "No existe",
+    "3": "El chimpancé",
+    "respostaCorreta": "2",
+    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
+    "acerto": "¡Felicitaciones, acertaste!"
+  },
+  "2": {
+    "texto": false,
+    "respostas": 3,
+    "pergunta": "¿Qué pez de la familia Zoarcidae es el más acidófilo del planeta?",
+    "1": "Parasphaerichthys lineatus",
+    "2": "No existe",
+    "3": "Zoarces agassizii",
+    "respostaCorreta": "2",
+    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
+    "acerto": "¡Felicitaciones, acertaste!"
+  },
+  "3": {
+    "texto": false,
+    "respostas": 3,
+    "pergunta": "¿Qué insecto posee el sistema respiratorio más complejo con 12 pares de estigmas?",
+    "1": "La abeja",
+    "2": "No existe",
+    "3": "El escarabajo",
+    "respostaCorreta": "2",
+    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
+    "acerto": "¡Felicitaciones, acertaste!"
+  },
+  "4": {
+    "texto": false,
+    "respostas": 3,
+    "pergunta": "¿Qué ave marina de la familia Stercorariidae vuela 15.000 km sin parar?",
+    "1": "Pardela parda",
+    "2": "La gaviota",
+    "3": "No existe",
+    "respostaCorreta": "3",
+    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
+    "acerto": "¡Felicitaciones, acertaste!"
+  },
+  "5": {
+    "texto": false,
+    "respostas": 3,
+    "pergunta": "¿Qué reptil posee glándulas salivales tóxicas letales para depredadores de 50 kg?",
+    "1": "El dragón de Komodo",
+    "2": "No existe",
+    "3": "La tortuga gigante",
+    "respostaCorreta": "2",
+    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
+    "acerto": "¡Felicitaciones, acertaste!"
+  },
+  "6": {
+    "texto": false,
+    "respostas": 3,
+    "pergunta": "¿Qué anfibio de la familia Caecidae regenera corazón, cerebro y médula espinal?",
+    "1": "Salamandra mexicanum",
+    "2": "No existe",
+    "3": "El sapo común",
+    "respostaCorreta": "2",
+    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
+    "acerto": "¡Felicitaciones, acertaste!"
+  },
+  "7": {
+    "texto": false,
+    "respostas": 3,
+    "pergunta": "¿Qué mamífero marino detecta frecuencias de hasta 280 kHz?",
+    "1": "La ballena franca",
+    "2": "Delfín nariz de botella",
+    "3": "No existe",
+    "respostaCorreta": "3",
+    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
+    "acerto": "¡Felicitaciones, acertaste!"
+  },
+  "8": {
+    "texto": false,
+    "respostas": 3,
+    "pergunta": "¿Qué insecto Hymenoptera posee 250.000 neuronas para la navegación por estrellas?",
+    "1": "Abeja polinizadora",
+    "2": "No existe",
+    "3": "La hormiga",
+    "respostaCorreta": "2",
+    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
+    "acerto": "¡Felicitaciones, acertaste!"
+  },
+  "9": {
+    "texto": false,
+    "respostas": 3,
+    "pergunta": "¿Qué pez Melanocetidae produce luz ultravioleta?",
+    "1": "Melanocetus johnsonii",
+    "2": "No existe",
+    "3": "El pez pescador (Anglerfish)",
+    "respostaCorreta": "2",
+    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
+    "acerto": "¡Felicitaciones, acertaste!"
+  },
+  "10": {
+    "texto": false,
+    "respostas": 3,
+    "pergunta": "¿Qué ave de la familia Falconidae se zambulle a 389 km/h?",
+    "1": "El halcón peregrino",
+    "2": "La garza real",
+    "3": "No existe",
+    "respostaCorreta": "1",
+    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
+    "acerto": "¡Felicitaciones, acertaste!"
+  },
+  "11": {
+    "texto": false,
+    "respostas": 3,
+    "pergunta": "¿Qué reptil Squamata mantiene una temperatura de -40°C a +65°C?",
+    "1": "Cobaya del desierto",
+    "2": "No existe",
+    "3": "El lagarto común",
+    "respostaCorreta": "2",
+    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
+    "acerto": "¡Felicitaciones, acertaste!"
+  },
+  "12": {
+    "texto": false,
+    "respostas": 3,
+    "pergunta": "¿Qué molusco Gastropoda produce conchas más resistentes que el acero?",
+    "1": "Convoluta roscoffensis",
+    "2": "No existe",
+    "3": "La ostra común",
+    "respostaCorreta": "2",
+    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
+    "acerto": "¡Felicitaciones, acertaste!"
+  },
+  "13": {
+    "texto": false,
+    "respostas": 3,
+    "pergunta": "¿Qué mamífero Chiroptera ve en 9 frecuencias del espectro?",
+    "1": "El murciélago vampiro",
+    "2": "No existe",
+    "3": "El murciélago frutero",
+    "respostaCorreta": "2",
+    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
+    "acerto": "¡Felicitaciones, acertaste!"
+  },
+  "14": {
+    "texto": false,
+    "respostas": 3,
+    "pergunta": "¿Qué Formicidae tiene un exoesqueleto con una resistencia de 5.000 atmósferas?",
+    "1": "Hormiga tanque",
+    "2": "No existe",
+    "3": "Hormiga ariel",
+    "respostaCorreta": "2",
+    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
+    "acerto": "¡Felicitaciones, acertaste!"
+  },
+  "15": {
+    "texto": false,
+    "respostas": 3,
+    "pergunta": "¿Qué ave Anseriformes migra a 12.900 metros sobre el Himalaya?",
+    "1": "Pato de cabeza roja",
+    "2": "Pato andino",
+    "3": "No existe",
+    "respostaCorreta": "3",
+    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
+    "acerto": "¡Felicitaciones, acertaste!"
+  },
+  "16": {
+    "texto": false,
+    "respostas": 3,
+    "pergunta": "¿Qué pez pescador (Anglerfish) tiene 15 especies de bacterias luminiscentes?",
+    "1": "Nanopsis anglerfish",
+    "2": "No existe",
+    "3": "El pez piedra",
+    "respostaCorreta": "2",
+    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
+    "acerto": "¡Felicitaciones, acertaste!"
+  },
+  "17": {
+    "texto": false,
+    "respostas": 3,
+    "pergunta": "¿Qué anfibio Gymnophiona absorbe ochenta por ciento de oxígeno a través de la piel?",
+    "1": "La serpiente ciega",
+    "2": "No existe",
+    "3": "La salamandra",
+    "respostaCorreta": "2",
+    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
+    "acerto": "¡Felicitaciones, acertaste!"
+  },
+  "18": {
+    "texto": false,
+    "respostas": 3,
+    "pergunta": "¿Qué Proboscidea regula el flujo cerebral en 0,5°C?",
+    "1": "El elefante africano",
+    "2": "No existe",
+    "3": "El elefante asiático",
+    "respostaCorreta": "2",
+    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
+    "acerto": "¡Felicitaciones, acertaste!"
+  },
+  "19": {
+    "texto": false,
+    "respostas": 3,
+    "pergunta": "¿Qué Crocodylidae tiene uma presión mandibular de 3.700 psi?",
+    "1": "El cocodrilo del río",
+    "2": "El caimán común",
+    "3": "No existe",
+    "respostaCorreta": "1",
+    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
+    "acerto": "¡Felicitaciones, acertaste!"
+  },
+  "20": {
+    "texto": false,
+    "respostas": 3,
+    "pergunta": "¿Qué artrópodo Merostomata tiene un linaje de 525 millones de años?",
+    "1": "Limulus polyphemus",
+    "2": "El cangrejo herradura",
+    "3": "No existe",
+    "respostaCorreta": "2",
+    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
+    "acerto": "¡Felicitaciones, acertaste!"
+  }
+}

@@ -1,14 +1,10 @@
 {
   "1": {
-    "texto": false,
-    "respostas": 3,
-    "pergunta": "¿Cuál es el único mamífero conocido con cuatro dedos en las extremidades funcionalmente distintos?",
-    "1": "El hombre",
-    "2": "No existe",
-    "3": "El chimpancé",
-    "respostaCorreta": "2",
-    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
-    "acerto": "¡Felicitaciones, acertaste!"
+    "pergunta": "¿Qué mamífero del orden Sirenia es completamente herbívoro y puede consumir hasta 50 kg de plantas al día?",
+    "texto": true,
+    "respostaCorreta": "manatí",
+    "acerto": "¡Excelente! El manatí es un pacífico gigante herbívoro.",
+    "erro": "Incorrecto. La respuesta correcta es 'manatí'."
   },
   "2": {
     "texto": false,
@@ -18,19 +14,15 @@
     "2": "No existe",
     "3": "Zoarces agassizii",
     "respostaCorreta": "2",
-    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
-    "acerto": "¡Felicitaciones, acertaste!"
+    "erro": "Incorrecto. Esos datos sobre acidez extrema fueron inventados.",
+    "acerto": "¡Buen ojo! Identificaste el dato falso con éxito."
   },
   "3": {
-    "texto": false,
-    "respostas": 3,
-    "pergunta": "¿Qué insecto posee el sistema respiratorio más complejo con 12 pares de estigmas?",
-    "1": "La abeja",
-    "2": "No existe",
-    "3": "El escarabajo",
-    "respostaCorreta": "2",
-    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
-    "acerto": "¡Felicitaciones, acertaste!"
+    "pergunta": "Los insectos respiran por tráqueas. ¿Cuál es el número máximo de pares de estigmas (espiráculos) que posee un insecto real?",
+    "texto": true,
+    "respostaCorreta": "10",
+    "acerto": "¡Respuesta correcta! 10 pares es el máximo biológico registrado.",
+    "erro": "Incorrecto. El límite anatómico real es de 10 pares."
   },
   "4": {
     "texto": false,
@@ -40,8 +32,8 @@
     "2": "La gaviota",
     "3": "No existe",
     "respostaCorreta": "3",
-    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
-    "acerto": "¡Felicitaciones, acertaste!"
+    "erro": "Respuesta incorrecta. Ningún miembro de esa familia logra semejante hazaña.",
+    "acerto": "¡Así es! Un viaje de esa magnitud pertenece a otra especie."
   },
   "5": {
     "texto": false,
@@ -51,8 +43,8 @@
     "2": "No existe",
     "3": "La tortuga gigante",
     "respostaCorreta": "2",
-    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
-    "acerto": "¡Felicitaciones, acertaste!"
+    "erro": "¡Casi! Aunque el dragón tiene veneno, no funciona como defense salival de ese tipo.",
+    "acerto": "¡Exacto! Ese mecanismo de defensa es un mito en la pregunta."
   },
   "6": {
     "texto": false,
@@ -62,19 +54,15 @@
     "2": "No existe",
     "3": "El sapo común",
     "respostaCorreta": "2",
-    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
-    "acerto": "¡Felicitaciones, acertaste!"
+    "erro": "Incorrecto. El axolote hace algo similar, pero no pertenece a esta familia.",
+    "acerto": "¡Perfecto! Supiste distinguir las familias de anfibios."
   },
   "7": {
-    "texto": false,
-    "respostas": 3,
-    "pergunta": "¿Qué mamífero marino detecta frecuencias de hasta 280 kHz?",
-    "1": "La ballena franca",
-    "2": "Delfín nariz de botella",
-    "3": "No existe",
-    "respostaCorreta": "3",
-    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
-    "acerto": "¡Felicitaciones, acertaste!"
+    "pergunta": "La ecolocalización es clave en el océano. ¿Qué pequeño cetáceo odontoceto emite clics de hasta 150 kHz?",
+    "texto": true,
+    "respostaCorreta": "marsopa",
+    "acerto": "¡Impecable! Las marsopas usan frecuencias ultrasónicas altísimas para cazar.",
+    "erro": "Incorrecto. Se trata de la 'marsopa'."
   },
   "8": {
     "texto": false,
@@ -84,8 +72,8 @@
     "2": "No existe",
     "3": "La hormiga",
     "respostaCorreta": "2",
-    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
-    "acerto": "¡Felicitaciones, acertaste!"
+    "erro": "No es correcto. Su sistema de navegación es complejo, pero no estelar.",
+    "acerto": "¡Correcto! Una exageración que supiste identificar."
   },
   "9": {
     "texto": false,
@@ -95,19 +83,19 @@
     "2": "No existe",
     "3": "El pez pescador (Anglerfish)",
     "respostaCorreta": "2",
-    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
-    "acerto": "¡Felicitaciones, acertaste!"
+    "erro": "Incorrecto. La bioluminiscencia abisal no suele usar el espectro UV.",
+    "acerto": "¡Excelente! La física de la luz abisal te dio la razón."
   },
   "10": {
     "texto": false,
     "respostas": 3,
     "pergunta": "¿Qué ave de la familia Falconidae se zambulle a 389 km/h?",
     "1": "El halcón peregrino",
-    "2": "La garza real",
+    "2": "La garga real",
     "3": "No existe",
     "respostaCorreta": "1",
-    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
-    "acerto": "¡Felicitaciones, acertaste!"
+    "erro": "Incorrecto. Créelo o no, hay un ave real capaz de lograr esta hazaña.",
+    "acerto": "¡Brillante! El halcón peregrino es el rey absoluto de la velocidad."
   },
   "11": {
     "texto": false,
@@ -117,19 +105,15 @@
     "2": "No existe",
     "3": "El lagarto común",
     "respostaCorreta": "2",
-    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
-    "acerto": "¡Felicitaciones, acertaste!"
+    "erro": "Respuesta incorrecta. Esos rangos térmicos congelarían o quemarían a cualquier reptil.",
+    "acerto": "¡Muy bien! Ningún reptil resistiría condiciones ambientales tan extremas."
   },
   "12": {
-    "texto": false,
-    "respostas": 3,
-    "pergunta": "¿Qué molusco Gastropoda produce conchas más resistentes que el acero?",
-    "1": "Convoluta roscoffensis",
-    "2": "No existe",
-    "3": "La ostra común",
-    "respostaCorreta": "2",
-    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
-    "acerto": "¡Felicitaciones, acertaste!"
+    "pergunta": "¿Qué mineral compuesto de oxihidróxido de hierro presente en los dientes de las lapas es el material biológico más resistente?",
+    "texto": true,
+    "respostaCorreta": "goethita",
+    "acerto": "¡Acertaste! Las nanofibras de goethita los hacen más fuertes que el Kevlar.",
+    "erro": "Incorrecto. El mineral es la 'goethita'."
   },
   "13": {
     "texto": false,
@@ -139,8 +123,8 @@
     "2": "No existe",
     "3": "El murciélago frutero",
     "respostaCorreta": "2",
-    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
-    "acerto": "¡Felicitaciones, acertaste!"
+    "erro": "Incorrecto. Tienen buena visión nocturna, pero no tantas bandas espectrales.",
+    "acerto": "¡Exacto! El espectro visual de los quirópteros no es tan amplio."
   },
   "14": {
     "texto": false,
@@ -150,19 +134,15 @@
     "2": "No existe",
     "3": "Hormiga ariel",
     "respostaCorreta": "2",
-    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
-    "acerto": "¡Felicitaciones, acertaste!"
+    "erro": "Respuesta incorrecta. Esa presión aplastaría cualquier estructura de quitina.",
+    "acerto": "¡Así se hace! Esa presión aplastante solo existe en la imaginación."
   },
   "15": {
-    "texto": false,
-    "respostas": 3,
-    "pergunta": "¿Qué ave Anseriformes migra a 12.900 metros sobre el Himalaya?",
-    "1": "Pato de cabeza roja",
-    "2": "Pato andino",
-    "3": "No existe",
-    "respostaCorreta": "3",
-    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
-    "acerto": "¡Felicitaciones, acertaste!"
+    "pergunta": "¿Qué ave Anseriformes es famosa por cruzar volando la cordillera del Himalaya a altitudes de hasta 8.800 metros? (Nombre común)",
+    "texto": true,
+    "respostaCorreta": "ánsar indio",
+    "acerto": "¡Magnífico! Este ganso posee una sangre súper eficiente para absorber oxígeno en las alturas.",
+    "erro": "Incorrecto. Se trata del 'ánsar indio' (o ganso indio)."
   },
   "16": {
     "texto": false,
@@ -172,8 +152,8 @@
     "2": "No existe",
     "3": "El pez piedra",
     "respostaCorreta": "2",
-    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
-    "acerto": "¡Felicitaciones, acertaste!"
+    "erro": "No es correcto. La simbiosis abisal suele ser exclusiva con una sola bacteria.",
+    "acerto": "¡Correcto! Menos es más en la evolución de su linterna."
   },
   "17": {
     "texto": false,
@@ -183,8 +163,8 @@
     "2": "No existe",
     "3": "La salamandra",
     "respostaCorreta": "2",
-    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
-    "acerto": "¡Felicitaciones, acertaste!"
+    "erro": "Incorrecto. Confundiste el grupo biológico que depende de la respiración cutánea.",
+    "acerto": "¡Muy bien pensado! Supiste esquivar el truco de la anatomy animal."
   },
   "18": {
     "texto": false,
@@ -194,8 +174,8 @@
     "2": "No existe",
     "3": "El elefante asiático",
     "respostaCorreta": "2",
-    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
-    "acerto": "¡Felicitaciones, acertaste!"
+    "erro": "Respuesta incorrecta. No existe tal precisión térmica en sus cerebros.",
+    "acerto": "¡Exacto! Un dato técnico inventado que no logró engañarte."
   },
   "19": {
     "texto": false,
@@ -205,8 +185,8 @@
     "2": "El caimán común",
     "3": "No existe",
     "respostaCorreta": "1",
-    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
-    "acerto": "¡Felicitaciones, acertaste!"
+    "erro": "Incorrecto. Aunque la opción exacta es el de agua salada, la fuerza sí es real.",
+    "acerto": "¡Impresionante! Reconociste el tremendo poder de la mandíbula del cocodrilo."
   },
   "20": {
     "texto": false,
@@ -216,7 +196,7 @@
     "2": "El cangrejo herradura",
     "3": "No existe",
     "respostaCorreta": "2",
-    "erro": "Respuesta incorrecta, inténtalo de nuevo.",
-    "acerto": "¡Felicitaciones, acertaste!"
+    "erro": "No es correcto. El fósil viviente indicado sí se encuentra entre las opciones.",
+    "acerto": "¡Excelente cierre! El cangrejo herradura es un superviviente nato."
   }
 }
