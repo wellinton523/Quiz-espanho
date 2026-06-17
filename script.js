@@ -53,6 +53,7 @@ const hintNameP2 = document.getElementById('hint-name-p2');
 const hintsCountP1 = document.getElementById('hints-count-p1');
 const hintsCountP2 = document.getElementById('hints-count-p2');
 const playerIndicator = document.getElementById('player-indicator');
+const loadingIndicator = document.getElementById('loading-indicator');
 
 // Executa os eventos quando o script carrega completamente
 function initEvents() {
@@ -115,6 +116,12 @@ function updatePlayerUI() {
 }
 
 function loadQuestoes() {
+  if (loadingIndicator) {
+    loadingIndicator.classList.remove('d-none');
+    loadingIndicator.setAttribute('aria-hidden', 'false');
+  }
+  if (startGameBtn) startGameBtn.disabled = true;
+
   fetch('questoes.json')
     .then((response) => {
       if (!response.ok) throw new Error('Não foi possível carregar o arquivo JSON.');
@@ -142,8 +149,19 @@ function initializeQuiz(data) {
 
   if (questionKeys.length === 0) {
     questionText.textContent = 'Nenhuma pergunta disponível.';
+    if (loadingIndicator) {
+      loadingIndicator.classList.add('d-none');
+      loadingIndicator.setAttribute('aria-hidden', 'true');
+    }
+    if (startGameBtn) startGameBtn.disabled = false;
     return;
   }
+
+  if (loadingIndicator) {
+    loadingIndicator.classList.add('d-none');
+    loadingIndicator.setAttribute('aria-hidden', 'true');
+  }
+  if (startGameBtn) startGameBtn.disabled = false;
 
   renderQuestion();
 }
@@ -159,7 +177,7 @@ function renderQuestion() {
   const isTextQuestion = Boolean(question.texto);
   answerInputWrapper.classList.toggle('d-none', !isTextQuestion);
   answersContainer.classList.toggle('d-none', isTextQuestion);
-  answersContainer.innerHTML = '';
+  while (answersContainer.firstChild) answersContainer.removeChild(answersContainer.firstChild);
 
   if (isTextQuestion) {
     answerInput.value = '';
@@ -175,8 +193,14 @@ function renderQuestion() {
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'option w-100 mb-2 border-0 bg-transparent';
-      button.innerHTML = `<div class="alert alert-light option-box mb-0 text-start" role="alert">${String.fromCharCode(64 + i)}: ${optionText}</div>`;
       button.dataset.answerId = String(i);
+
+      const optionBox = document.createElement('div');
+      optionBox.className = 'alert alert-light option-box mb-0 text-start';
+      optionBox.setAttribute('role', 'alert');
+      optionBox.textContent = `${String.fromCharCode(64 + i)}: ${optionText}`;
+
+      button.appendChild(optionBox);
       button.addEventListener('click', () => handleAnswer(String(i)));
       answersContainer.appendChild(button);
     }
@@ -194,6 +218,21 @@ function renderQuestion() {
   }
   
   updatePlayerUI();
+
+  // small entrance animations + focus
+  if (questionText) {
+    questionText.classList.add('fade-in');
+    setTimeout(() => questionText.classList.remove('fade-in'), 400);
+  }
+  if (!isTextQuestion) {
+    // focus first available answer
+    const firstBtn = answersContainer.querySelector('button:not([disabled])');
+    if (firstBtn) firstBtn.focus();
+    answersContainer.classList.add('slide-up');
+    setTimeout(() => answersContainer.classList.remove('slide-up'), 450);
+  } else {
+    if (answerInput) answerInput.focus();
+  }
 }
 
 function useHint() {
@@ -282,13 +321,18 @@ function handleAnswer(answerValue) {
   if (isCorrect) {
     feedbackText.textContent = `${playerNames[currentPlayer]} ` + (question.acerto || 'Acertou!');
     feedbackText.className = 'alert alert-success';
+    feedbackText.classList.add('pulse');
+    setTimeout(() => feedbackText.classList.remove('pulse'), 700);
     playerScores[currentPlayer]++;
   } else {
     feedbackText.textContent = `${playerNames[currentPlayer]} ` + (question.erro || 'Resposta incorreta.');
     feedbackText.className = 'alert alert-danger';
+    feedbackText.classList.add('pulse');
+    setTimeout(() => feedbackText.classList.remove('pulse'), 700);
   }
 
   nextButton.classList.remove('d-none');
+  if (nextButton) nextButton.focus();
 }
 
 function showVictoryScreen() {
@@ -303,9 +347,9 @@ function showVictoryScreen() {
   scoreP2El.textContent = `${playerNames[2]}: ${playerScores[2]} acerto(s)`;
 
   if (playerScores[1] > playerScores[2]) {
-    victoryTitle.innerHTML = `¡Vitória de <span class="text-success">${playerNames[1]}</span>! 🏆`;
+    victoryTitle.textContent = `¡Vitória de ${playerNames[1]}! 🏆`;
   } else if (playerScores[2] > playerScores[1]) {
-    victoryTitle.innerHTML = `¡Vitória de <span class="text-success">${playerNames[2]}</span>! 🏆`;
+    victoryTitle.textContent = `¡Vitória de ${playerNames[2]}! 🏆`;
   } else {
     victoryTitle.textContent = "Empate Técnico! 🤝";
   }

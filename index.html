@@ -14,7 +14,7 @@
 <body>
 
   <div class="background-night">
-    <canvas id="shaderCanvas" class="aurora"></canvas>
+    <canvas id="shaderCanvas" class="aurora" aria-hidden="true"></canvas>
   </div>
 
   <div class="container p-5">
@@ -51,6 +51,9 @@
         </div>
 
         <div class="card card-question mb-4 p-3">
+          <div id="loading-indicator" class="d-none text-center mb-2" aria-hidden="true">
+            <div class="spinner-border text-primary" role="status"><span class="visually-hidden">Carregando...</span></div>
+          </div>
           <span id="question-text">Carregando pergunta...</span>
         </div>
 
@@ -67,7 +70,7 @@
         </div>
 
         <div class="card p-3">
-          <span id="feedback-text" class="text-dark">Suas respostas aparecerão aqui.</span>
+          <span id="feedback-text" role="status" aria-live="polite" class="text-muted">Suas respostas aparecerão aqui.</span>
         </div>
       </div>
     </div>
@@ -75,7 +78,7 @@
     <div id="screen-victory" class="card p-5 text-center d-none mx-auto" style="max-width: 600px;">
       <span class="material-symbols-outlined text-warning" style="font-size: 4rem;">trophy</span>
       <h2 class="mt-3" id="victory-title">Fim de Jogo!</h2>
-      <hr>
+      <hr>a shade
       <div class="my-4">
         <h3>Placar Final:</h3>
         <p class="fs-4" id="score-p1">Player 1: 0 acertos</p>
