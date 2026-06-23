@@ -16,9 +16,41 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: -2;
+  z-index: -1;
   opacity: 0.8;
   pointer-events: none;
+}
+
+.question-background {
+  position: fixed;
+  right: 40px;
+  bottom: 80px;
+  width: 300px;
+  height: 300px;
+  z-index: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 1 !important;
+  pointer-events: none;
+  filter: saturate(1.05) brightness(1.03) contrast(1.05) drop-shadow(0 0 20px rgba(186, 216, 255, 0.15));
+  transition: background-image 0.45s ease, background-size 0.35s ease;
+  animation: floatSpace 6s ease-in-out infinite;
+}
+
+@keyframes floatSpace {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-20px) translateX(15px) rotate(5deg);
+  }
+  50% {
+    transform: translateY(-35px) translateX(0px) rotate(-3deg);
+  }
+  75% {
+    transform: translateY(-15px) translateX(-15px) rotate(4deg);
+  }
 }
 
 .card{

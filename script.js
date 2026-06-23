@@ -1,5 +1,6 @@
 let questoes = {};
 let questionKeys = [];
+let questionImages = {};
 let currentQuestionIndex = 0;
 let hintUsed = false;
 let currentPlayer = 1;
@@ -54,6 +55,7 @@ const hintsCountP1 = document.getElementById('hints-count-p1');
 const hintsCountP2 = document.getElementById('hints-count-p2');
 const playerIndicator = document.getElementById('player-indicator');
 const loadingIndicator = document.getElementById('loading-indicator');
+const questionBackground = document.getElementById('question-background');
 
 // Executa os eventos quando o script carrega completamente
 function initEvents() {
@@ -115,6 +117,35 @@ function updatePlayerUI() {
   if(hintsCountP2) hintsCountP2.textContent = playerHints[2];
 }
 
+function setQuestionBackground(key) {
+  if (!questionBackground || !Array.isArray(questionImages) || questionImages.length === 0) {
+    questionBackground.style.backgroundImage = '';
+    return;
+  }
+
+  const randomImage = questionImages[Math.floor(Math.random() * questionImages.length)];
+  const imagePath = randomImage?.src || randomImage?.path || randomImage?.image;
+  const correction = Number(randomImage?.sizeCorrection ?? randomImage?.scale ?? randomImage?.size ?? 1);
+  let backgroundSize = '80%';
+
+  if (!Number.isNaN(correction)) {
+    if (correction > 5) {
+      backgroundSize = `${Math.min(110, Math.max(30, correction))}%`;
+    } else {
+      backgroundSize = `${Math.min(110, Math.max(30, 80 * correction))}%`;
+    }
+  }
+
+  if (imagePath) {
+    questionBackground.style.backgroundImage = `url('${imagePath}')`;
+    questionBackground.style.backgroundSize = backgroundSize;
+    questionBackground.style.opacity = '1';
+  } else {
+    questionBackground.style.backgroundImage = '';
+    questionBackground.style.opacity = '0';
+  }
+}
+
 function loadQuestoes() {
   if (loadingIndicator) {
     loadingIndicator.classList.remove('d-none');
@@ -122,20 +153,30 @@ function loadQuestoes() {
   }
   if (startGameBtn) startGameBtn.disabled = true;
 
-  fetch('questoes.json')
+  const questionsPromise = fetch('questoes.json')
     .then((response) => {
-      if (!response.ok) throw new Error('Não foi possível carregar o arquivo JSON.');
+      if (!response.ok) throw new Error('Não foi possível carregar o arquivo de perguntas.');
+      return response.json();
+    });
+
+  const imageDataPromise = fetch('questoes-imagens.json')
+    .then((response) => {
+      if (!response.ok) throw new Error('Não foi possível carregar o arquivo de imagens.');
       return response.json();
     })
-    .then((data) => initializeQuiz(data))
+    .catch(() => ({}));
+
+  Promise.all([questionsPromise, imageDataPromise])
+    .then(([questions, imageData]) => initializeQuiz(questions, imageData))
     .catch((error) => {
       console.warn('Usando perguntas internas de segurança:', error.message);
-      initializeQuiz(fallbackQuestoes);
+      initializeQuiz(fallbackQuestoes, {});
     });
 }
 
-function initializeQuiz(data) {
+function initializeQuiz(data, imageData = {}) {
   questoes = data;
+  questionImages = imageData || {};
   questionKeys = Object.keys(questoes);
   
   for (let i = questionKeys.length - 1; i > 0; i--) {
@@ -170,6 +211,7 @@ function renderQuestion() {
   const key = questionKeys[currentQuestionIndex];
   const question = questoes[key];
 
+  setQuestionBackground(key);
   questionText.textContent = question.pergunta || 'Pergunta sem texto';
   feedbackText.textContent = 'Sua resposta aparecerá aqui.';
   feedbackText.className = 'card p-2 text-muted';
