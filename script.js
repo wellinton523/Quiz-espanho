@@ -4,6 +4,9 @@ let questionImages = {};
 let currentQuestionIndex = 0;
 let hintUsed = false;
 let currentPlayer = 1;
+let timerDuration = 15;
+let timerRemaining = timerDuration;
+let timerInterval = null;
 
 // Perguntas reserva prontas caso o arquivo questoes.json falhe ou não exista localmente
 const fallbackQuestoes = {
@@ -28,7 +31,9 @@ const fallbackQuestoes = {
 
 let playerNames = { 1: "Player 1", 2: "Player 2" };
 let playerScores = { 1: 0, 2: 0 };
+let playerCorrects = { 1: 0, 2: 0 };
 let playerHints = { 1: 3, 2: 3 };
+let playerTotalTime = { 1: 0, 2: 0 };
 
 // Seleção dos elementos do DOM
 const screenSetup = document.getElementById('screen-setup');
@@ -56,6 +61,8 @@ const hintsCountP2 = document.getElementById('hints-count-p2');
 const playerIndicator = document.getElementById('player-indicator');
 const loadingIndicator = document.getElementById('loading-indicator');
 const questionBackground = document.getElementById('question-background');
+const timerDisplay = document.getElementById('timer-display');
+const timerValue = document.getElementById('timer-value');
 
 // Executa os eventos quando o script carrega completamente
 function initEvents() {
@@ -75,6 +82,7 @@ function initEvents() {
 
   if (nextButton) {
     nextButton.addEventListener('click', () => {
+      stopTimer();
       currentQuestionIndex += 1;
       if (currentQuestionIndex >= questionKeys.length) {
         showVictoryScreen();
@@ -115,6 +123,62 @@ function updatePlayerUI() {
   }
   if(hintsCountP1) hintsCountP1.textContent = playerHints[1];
   if(hintsCountP2) hintsCountP2.textContent = playerHints[2];
+}
+
+function updateTimerDisplay() {
+  if (!timerValue || !timerDisplay) return;
+  timerValue.textContent = String(timerRemaining);
+  timerDisplay.classList.toggle('active', timerRemaining <= 5);
+}
+
+function stopTimer() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+}
+
+function handleTimeExpired() {
+  stopTimer();
+  playerTotalTime[currentPlayer] += timerDuration;
+  const key = questionKeys[currentQuestionIndex];
+  const question = questoes[key];
+  const isTextQuestion = Boolean(question && question.texto);
+
+  if (answerInput) answerInput.disabled = true;
+  if (answerSubmit) answerSubmit.disabled = true;
+  Array.from(answersContainer.querySelectorAll('button')).forEach((b) => b.disabled = true);
+
+  if (feedbackText) {
+    feedbackText.textContent = `${playerNames[currentPlayer]} não respondeu a tempo!`;
+    feedbackText.className = 'alert alert-danger';
+  }
+
+  if (!isTextQuestion) {
+    const correctBtn = answersContainer.querySelector(`button[data-answer-id="${String(question.respostaCorreta)}"]`);
+    if (correctBtn) {
+      const inner = correctBtn.querySelector('.option-box') || correctBtn.querySelector('div');
+      if (inner) inner.className = 'alert alert-success option-box text-start';
+    }
+  }
+
+  nextButton.classList.remove('d-none');
+  if (nextButton) nextButton.focus();
+}
+
+function startTimer() {
+  stopTimer();
+  timerRemaining = timerDuration;
+  updateTimerDisplay();
+  if (timerDisplay) timerDisplay.classList.remove('d-none');
+
+  timerInterval = setInterval(() => {
+    timerRemaining -= 1;
+    updateTimerDisplay();
+    if (timerRemaining <= 0) {
+      handleTimeExpired();
+    }
+  }, 1000);
 }
 
 function setQuestionBackground(key) {
@@ -187,6 +251,10 @@ function initializeQuiz(data, imageData = {}) {
   currentQuestionIndex = 0;
   playerScores[1] = 0;
   playerScores[2] = 0;
+  playerCorrects[1] = 0;
+  playerCorrects[2] = 0;
+  playerTotalTime[1] = 0;
+  playerTotalTime[2] = 0;
 
   if (questionKeys.length === 0) {
     questionText.textContent = 'Nenhuma pergunta disponível.';
@@ -260,6 +328,7 @@ function renderQuestion() {
   }
   
   updatePlayerUI();
+  startTimer();
 
   // small entrance animations + focus
   if (questionText) {
@@ -323,6 +392,8 @@ function updateProgress() {
 }
 
 function handleAnswer(answerValue) {
+  stopTimer();
+  playerTotalTime[currentPlayer] += timerDuration - timerRemaining;
   const key = questionKeys[currentQuestionIndex];
   const question = questoes[key];
   const isTextQuestion = Boolean(question.texto);
@@ -361,11 +432,15 @@ function handleAnswer(answerValue) {
   }
 
   if (isCorrect) {
-    feedbackText.textContent = `${playerNames[currentPlayer]} ` + (question.acerto || 'Acertou!');
+    const timeBonus = Math.max(1, timerRemaining);
+    const pointsEarned = 1 + timeBonus;
+    playerCorrects[currentPlayer]++;
+    playerScores[currentPlayer] += pointsEarned;
+
+    feedbackText.textContent = `${playerNames[currentPlayer]} acertou! +${pointsEarned} pontos (${timeBonus} por tempo)`;
     feedbackText.className = 'alert alert-success';
     feedbackText.classList.add('pulse');
     setTimeout(() => feedbackText.classList.remove('pulse'), 700);
-    playerScores[currentPlayer]++;
   } else {
     feedbackText.textContent = `${playerNames[currentPlayer]} ` + (question.erro || 'Resposta incorreta.');
     feedbackText.className = 'alert alert-danger';
@@ -385,15 +460,25 @@ function showVictoryScreen() {
   const scoreP2El = document.getElementById('score-p2');
   const victoryTitle = document.getElementById('victory-title');
 
-  scoreP1El.textContent = `${playerNames[1]}: ${playerScores[1]} acerto(s)`;
-  scoreP2El.textContent = `${playerNames[2]}: ${playerScores[2]} acerto(s)`;
+  scoreP1El.textContent = `${playerNames[1]}: ${playerScores[1]} pontos (${playerCorrects[1]} acertos)`;
+  scoreP2El.textContent = `${playerNames[2]}: ${playerScores[2]} pontos (${playerCorrects[2]} acertos)`;
 
   if (playerScores[1] > playerScores[2]) {
     victoryTitle.textContent = `¡Vitória de ${playerNames[1]}! 🏆`;
   } else if (playerScores[2] > playerScores[1]) {
     victoryTitle.textContent = `¡Vitória de ${playerNames[2]}! 🏆`;
   } else {
-    victoryTitle.textContent = "Empate Técnico! 🤝";
+    if (playerCorrects[1] > playerCorrects[2]) {
+      victoryTitle.textContent = `¡Vitória de ${playerNames[1]} por acertos! 🏆`;
+    } else if (playerCorrects[2] > playerCorrects[1]) {
+      victoryTitle.textContent = `¡Vitória de ${playerNames[2]} por acertos! 🏆`;
+    } else if (playerTotalTime[1] < playerTotalTime[2]) {
+      victoryTitle.textContent = `¡Vitória de ${playerNames[1]} por tempo! 🏆`;
+    } else if (playerTotalTime[2] < playerTotalTime[1]) {
+      victoryTitle.textContent = `¡Vitória de ${playerNames[2]} por tempo! 🏆`;
+    } else {
+      victoryTitle.textContent = "Empate Técnico! 🤝";
+    }
   }
 }
 
