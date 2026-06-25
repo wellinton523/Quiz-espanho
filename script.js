@@ -7,6 +7,7 @@ let currentPlayer = 1;
 let timerDuration = 15;
 let timerRemaining = timerDuration;
 let timerInterval = null;
+let timerStartTime = 0;
 
 // Perguntas reserva prontas caso o arquivo questoes.json falhe ou não exista localmente
 const fallbackQuestoes = {
@@ -169,16 +170,18 @@ function handleTimeExpired() {
 function startTimer() {
   stopTimer();
   timerRemaining = timerDuration;
+  timerStartTime = Date.now();
   updateTimerDisplay();
   if (timerDisplay) timerDisplay.classList.remove('d-none');
 
   timerInterval = setInterval(() => {
-    timerRemaining -= 1;
+    const elapsed = Math.floor((Date.now() - timerStartTime) / 1000);
+    timerRemaining = Math.max(0, timerDuration - elapsed);
     updateTimerDisplay();
     if (timerRemaining <= 0) {
       handleTimeExpired();
     }
-  }, 1000);
+  }, 250);
 }
 
 function setQuestionBackground(key) {
@@ -393,7 +396,8 @@ function updateProgress() {
 
 function handleAnswer(answerValue) {
   stopTimer();
-  playerTotalTime[currentPlayer] += timerDuration - timerRemaining;
+  const timeUsed = timerDuration - timerRemaining;
+  playerTotalTime[currentPlayer] += timeUsed;
   const key = questionKeys[currentQuestionIndex];
   const question = questoes[key];
   const isTextQuestion = Boolean(question.texto);
