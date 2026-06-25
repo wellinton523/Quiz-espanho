@@ -131,6 +131,22 @@
   justify-content: space-between;
 }
 
+.timer-display{
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #cfe2ff;
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  backdrop-filter: blur(8px);
+}
+
+.timer-display.active{
+  color: #ffd43b;
+}
+
 .option{
   min-width: 48%;
   margin: 0.3em;
